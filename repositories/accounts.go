@@ -7,9 +7,9 @@ import (
 
 const (
 	GET_ACC      string = "SELECT acc_id, first_name, last_name, email, password, rights FROM accounts WHERE acc_id = $1 AND rights != $2"
-	GET_ACCS     string = "SELECT acc_id, first_name, last_name, email, rights FROM accounts WHERE rights != $1"
+	GET_ACCS     string = "SELECT acc_id, first_name, last_name, email, password, rights FROM accounts WHERE rights != $1"
 	CREATE_ACC   string = "INSERT INTO accounts (first_name, last_name, email, password, rights) VALUES ($1, $2, $3, $4, $5) RETURNING acc_id;"
-	UPDATE_ACC   string = "UPDATE accounts SET first_name = $1, last_name = $2, email = $3, password = $4, rights = $5 WHERE acc_id = $6"
+	UPDATE_ACC   string = "UPDATE accounts SET first_name = $1, last_name = $2, email = $3, password = $4, rights = $5 WHERE acc_id = $6 AND rights != $7"
 	DELETE_ACC   string = "DELETE FROM accounts WHERE acc_id = $1 AND rights != $2"
 	GET_ROLE     string = "SELECT rights FROM accounts WHERE email = $1"
 	GET_ACC_AUTH string = "SELECT EXISTS (SELECT 1 FROM accounts WHERE email = $1 AND password = $2);"
@@ -31,14 +31,13 @@ func (repo *Repository) GetAccounts(ctx context.Context) ([]types.Account, error
 
 	rows, err := repo.DB.QueryContext(ctx, GET_ACCS, types.Tier0)
 	if err != nil {
-		// Оборачиваем ошибку
 		return nil, types.SQLExecutionError.Wrap(err, "failed to retrieve accounts")
 	}
 	defer rows.Close()
 
 	for rows.Next() {
 		var acc types.Account
-		if err := rows.Scan(&acc.ID, &acc.FirstName, &acc.LastName, &acc.Rights); err != nil {
+		if err := rows.Scan(&acc.ID, &acc.FirstName, &acc.LastName, &acc.Email, &acc.Password, &acc.Rights); err != nil {
 			return nil, types.SQLExecutionError.Wrap(err, "failed to scan account")
 		}
 		accs = append(accs, acc)
