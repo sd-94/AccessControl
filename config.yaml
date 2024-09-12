@@ -6,7 +6,7 @@ auth:
 port: "8080"
 dbconfig:
   host: "127.0.0.1"
-  port: "1111"
+  port: "5432"
   user: "postgres"
   password: "2153"
   dbname: "postgres"

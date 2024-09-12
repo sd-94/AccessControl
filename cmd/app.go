@@ -43,6 +43,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.Use(AuthMiddleWareWithConfig(cfg))
+	router.HandleFunc("/auth/token", handlers.HandleError(handler.HandleGetToken)).Methods("POST")
 
 	router.HandleFunc("/accounts/{acc_id}", handlers.HandleError(handler.HandleGetAccount)).Methods("GET")
 	router.HandleFunc("/accounts", handlers.HandleError(handler.HandleGetAccounts)).Methods("GET")
@@ -77,7 +78,7 @@ func AuthMiddleWareWithConfig(config *config.Config) func(http.Handler) http.Han
 				return
 			}
 
-			context := context.WithValue(r.Context(), "mail", email)
+			context := context.WithValue(r.Context(), "email", email)
 			h.ServeHTTP(w, r.WithContext(context))
 		})
 	}

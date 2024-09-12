@@ -7,5 +7,5 @@ services:
     environment:
       - POSTGRES_PASSWORD=2153
     ports:
-      - "1111:1111"
+      - "5432:5432"
     restart: always

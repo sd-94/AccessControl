@@ -43,7 +43,7 @@ func GetDB(cfg PostgresConfig) (*sql.DB, error) {
 func createAccTable(db *sql.DB) error {
 	query := `
 		CREATE TABLE IF NOT EXISTS accounts (
-			id SERIAL PRIMARY KEY,
+			acc_id SERIAL PRIMARY KEY,
 			first_name TEXT,
 			last_name TEXT,
 			email TEXT,

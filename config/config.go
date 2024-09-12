@@ -19,7 +19,7 @@ type Config struct {
 	DBConfig databases.PostgresConfig
 }
 
-func LoadConfig() (*Config) {
+func LoadConfig() (*Config, error){
 	viper.SetConfigFile("config.yaml")
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
