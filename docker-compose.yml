@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: noti-postgres-db
+    environment:
+      - POSTGRES_PASSWORD=2153
+    ports:
+      - "1111:1111"
+    restart: always

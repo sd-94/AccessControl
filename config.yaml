@@ -1,0 +1,12 @@
+auth:
+  secret: mommy
+  header: Token
+  ignore:
+     - /auth/token
+port: "8080"
+dbconfig:
+  host: "127.0.0.1"
+  port: "1111"
+  user: "postgres"
+  password: "2153"
+  dbname: "postgres"
